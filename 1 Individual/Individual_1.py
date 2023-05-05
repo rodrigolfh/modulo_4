@@ -42,11 +42,16 @@ class Ventas(Usuario):
     hacer_pedidos = True
     modificar_stock = False
 
+    
+
     def __str__(self):
         return f"Tipo Usuario: {self.tipo_usuario}\nUsername : {self.nombre_usuario} \nContraseña: {self.contraseña}\nEdad: {self.edad}"
 
+
 #En esa ocasión se solicita un programa que:
 #- Pregunta el nombre de usuario y una contraseña.
+
+
 import os
 import time
 datos_usuarios = {}
@@ -77,9 +82,25 @@ def datos():
             print("Debe ingresar un número entero")
             time.sleep(1)
             os.system('clear')
-
-    dict_datos = {"contraseña": contraseña, "edad": edad}
-    datos_usuarios[usuario] = dict_datos
+    
+    while True:
+        try:
+            tipo_usuario = int(input("Ingrese tipo de usuario.\n  1 para Supervisor\n  2 para Bodega\n  3 para Ventas\n    Su opción: "))
+        except ValueError:
+            print("Debe ingresar un número del 1 al 3")
+        if tipo_usuario == 1:
+            datos_usuarios[usuario] = Supervisor(usuario, contraseña, edad)
+            break
+        elif tipo_usuario == 2:
+            datos_usuarios[usuario] = Bodega(usuario, contraseña, edad)
+            break      
+        elif tipo_usuario == 3:
+            datos_usuarios[usuario] = Ventas(usuario, contraseña, edad)
+            break   
+        else:
+            print("Opción incorrecta.")
+            continue    
+                
     
    
 #- Imprima por cada usuario: su edad, y contraseña con un desfase de 5 segundos.
@@ -88,11 +109,9 @@ def imprime():
     """Imprime los datos de los usuarios existentes"""
     os.system('clear')
     print("\n===================================\n\nEstos son los usuarios ingresados: \n\n===================================\n")
-    for usuario, datos in datos_usuarios.items():
-        print(f"Nombre de Usuario: {usuario}")
-        print(f"Contraseña: {datos['contraseña']}")
-        print(f"Edad: {datos['edad']}")
-        print("...............................\n")
+    for usuario in datos_usuarios:
+        print(datos_usuarios[usuario])
+       
         time.sleep(1) #5 segundos son demasiado
 
 
