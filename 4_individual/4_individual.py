@@ -1,7 +1,7 @@
 from datetime import datetime
 
 class Persona:
-    def __init__(self, rut, nombres, apellido1, apellido2, edad, dirección, *fonos):
+    def __init__(self, rut, nombres, apellido1, apellido2, edad, dirección, fono_1=None, fono_2=None, fono_3=None, fono_4=None):
         self._rut = rut 
         self._nombres = nombres
         self._apellido1 = apellido1
@@ -9,12 +9,10 @@ class Persona:
         self._edad = edad
        
         #poner un if para que no sean más de 4 fonos
-        self.fonos = fonos #tupla
-        self._fonos_contacto = {1: '', 2: '', 3: '', 4: ''}
-        for fono in fonos: self._fonos_contacto[fonos.index(fono)+1] = fono
+        self.fonos = [fono_1, fono_2, fono_3, fono_4]
         self.dirección = dirección #no protegido, actualiza constantemente
         print(self.fonos)
-        print(self._fonos_contacto)
+   
         
     def __str__(self):              
         return self._rut
@@ -22,15 +20,17 @@ class Persona:
     #sobrecarga
     @property
     def teléfonos(self):
-        return(self._fonos_contacto)
-    
-        
+        for item in self.fonos:
+            fonos
+        return(self.fonos)
+            
 
     @teléfonos.setter
-    def teléfonos(self, movimiento, index_número=None, número=None):
+    def teléfonos(self, movimiento, posiciónfono_1=None, fono_2=None, fono_3=None, fono_4=None):
         if movimiento == "limpiar":
-            self._fonos_contacto = {1: '', 2: '', 3: '', 4: ''}
-        elif movimiento == "definir": self._fonos_contacto[index_número] = número
+            self._fonos = []
+        elif movimiento == "definir": 
+            self._fono1
         elif movimiento == "borrar": self._fonos_contacto[index_número] = ''
         else: print("Debe ingresar el movimiento correcto")   
     
