@@ -44,15 +44,68 @@
 -- 		La transacción termina cuando se realiza un COMMIT o un ROLLBACK.
 
 -- Parte 1: Crear entorno de trabajo
+
 -- - Crear una base de datos
+CREATE DATABASE individual_5_3_2;
+
 -- - Crear un usuario con todos los privilegios para trabajar con la base de datos recién creada.
+CREATE USER 'user_indi_5_3_2'@'localhost' IDENTIFIED BY 'contraseña';
+
 -- Parte 2: Crear tablas.
--- - Crea dos tablas en la base de datos. La primera almacena todos los usuarios sin una participación
--- activa en tu aplicación y la segunda agrupa a los usuarios que son considerados especiales, debido
--- a su alta participación en tu aplicación web.
+-- - Crea dos tablas en la base de datos. La primera almacena todos los usuarios sin una 
+-- participación activa en tu aplicación y la segunda agrupa a los usuarios que son 
+-- considerados especiales, debido a su alta participación en tu aplicación web.
+-- Ambas tablas deben tener la siguiente información de cada usuario: id, nombre, apellido, 
+-- correo electrónico telefono y género.
+USE individual_5_3_2;
+CREATE TABLE colaboradores_frecuentes(
+id INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(20),
+apellido VARCHAR(40),
+correo VARCHAR(100),
+teléfono INT,
+género VARCHAR(15)
+);
+
+CREATE TABLE colaboradores_esporádicos(
+id INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(20),
+apellido VARCHAR(40),
+correo VARCHAR(100),
+teléfono INT,
+género VARCHAR(15)
+);
+
 -- - La primera tabla debe tener 5 usuarios en un comienzo.
+INSERT INTO colaboradores_frecuentes (nombre, apellido, correo, teléfono, género) VALUES
+('Diego', 'González', 'diego.gonzalez@example.com', 912345678, 'Masculino'),
+('Valentina', 'Rojas', 'valentina.rojas@example.com', 945678912, 'Femenino'),
+('Matías', 'Silva', 'matias.silva@example.com', 978123456, 'Masculino'),
+('Isabella', 'Torres', 'isabella.torres@example.com', 987654321, 'Femenino'),
+('Joaquín', 'López', 'joaquin.lopez@example.com', 956781234, 'Masculino');
+
 -- - La segunda tabla no debe tener usuarios.
+-- 		OK
+
 -- - Transfiera tres usuarios desde la primera tabla a la segunda.
 -- - Anule la transferencia del tercer usuario.
--- Ambas tablas deben tener la siguiente información de cada usuario: id, nombre, apellido, correo electrónico
--- telefono y género.
+
+-- DOS PRIMERO
+START TRANSACTION;
+INSERT INTO colaboradores_esporádicos
+(SELECT * FROM colaboradores_frecuentes LIMIT 2);
+DELETE FROM colaboradores_frecuentes WHERE id > 0 LIMIT 2;
+COMMIT WORK;
+
+-- ANULACIÓN
+START TRANSACTION;
+INSERT INTO colaboradores_esporádicos
+(SELECT * FROM colaboradores_frecuentes LIMIT 1);
+DELETE FROM colaboradores_frecuentes WHERE id > 0 LIMIT 1;
+ROLLBACK WORK;
+
+
+-- SELECTS PARA REVISAR
+SELECT * FROM colaboradores_esporádicos;
+SELECT * FROM colaboradores_frecuentes;
+
