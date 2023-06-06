@@ -56,4 +56,32 @@ https://www.w3schools.com/django/django_add_bootstrap5.php
 
 
 
-    
+ADMIN
+
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+
+hay un service manager para cada tipo de DB. EN Sqlite3 es dbbrowser (python manage.py migrate)
+
+tabla auth:user
+
+select * from auth_user
+  sino directo por shell
+
+ python3 manage.py createsuperuser
+
+select * from auth_user : muestra password encriptada
+
+    models.py > migrate
+    nombreclase(models.Model)
+        def init
+           self. atributo  = models.charfield(maxlenght bla bla)
+           NO USA INIT__
+
+
+los modelos también se debe registrar en admin.py
+
+debe tener from .import models
+admin.site.register(model.nombreclase) #ahora aparece en la db al verla en el admin
+
+cada vez que se hace un cambio en un modelo hay que migrar
