@@ -85,3 +85,12 @@ debe tener from .import models
 admin.site.register(model.nombreclase) #ahora aparece en la db al verla en el admin
 
 cada vez que se hace un cambio en un modelo hay que migrar
+
+
+
+tarea 3.
+
+1. crear usuarios en admin. Cada usuario tendrá nombre, apellido y mail (3 atributos)
+2. en el index.html de la carpeta templates/mi_app se hará una lista ordenada que tendrá un loop for para cada usuario.
+3. en el views.py se dará un tercer atributo, un diccionario asociado a una variable (que se define en el mismo views, 
+pero antes de la función index), que a su vez va a sacar datos de la base de datos.
