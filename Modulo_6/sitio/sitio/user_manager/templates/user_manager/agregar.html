@@ -1,0 +1,17 @@
+{% extends "user_manager/base.html" %}
+
+{% block body %}
+
+<h1>Agregar funcionario</h1>
+    <form action="", method="POST">
+        {% csrf_token %}
+        <table>
+            {{formulario}}
+        </table>
+        <button type="submit">Enviar</button>
+    </form>
+
+
+
+
+{% endblock %}

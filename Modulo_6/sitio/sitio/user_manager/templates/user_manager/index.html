@@ -1,0 +1,33 @@
+{% extends "user_manager/base.html" %}
+
+{% block body %}
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="https://icons.getbootstrap.com/assets/icons/bootstrap-fill.svg" width="30" height="30" class="d-inline-block align-top" alt="" >
+      El súper sitio
+    </a>
+  </nav>
+  <img src="https://media.istockphoto.com/id/521247381/vector/avatars-characters.jpg?s=612x612&w=0&k=20&c=y1Em7kZDV6JvIAs576l_K-DQnDK_1CEDVPKCLaDZVp8=" alt="" width="200px">
+  
+<h1>Lista de usuarios</h1>
+<ol>
+    {% for usuario in users %}
+        <li>username: {{ usuario }}
+        <ul>
+            <li>Nombre : {{usuario.first_name}}</li>
+            <li>Apellido: {{usuario.last_name}}</li>
+            <li>Mail: {{usuario.email}}</li>
+            <br>
+        </ul>
+    </li>
+    {% endfor %}
+
+
+    {% url 'agregar' %}
+    <a href="{% url 'agregar' %}"> Agregar Funcionario</a>
+
+    <img src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png" alt="" width="200">
+</ol>
+
+
+{% endblock %}
