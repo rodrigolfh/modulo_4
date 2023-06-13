@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'landing',
+   
     'bootstrap5',
-    'mi_app',
-    'user_manager'
+    
+    'clinicapp'
 ]
 
 MIDDLEWARE = [

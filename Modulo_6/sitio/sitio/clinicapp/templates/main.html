@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClinicAPP Landing</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7tRN6pquwb897wC7ErmeJ8UDw3ASjK0uT5xmDYhFk6rTG" crossorigin="anonymous">
+</head>
+<body>
+  {% extends "clinicapp/base.html" %}
+
+{% block body %}
+  <div class="container">
+    <h1>Bienvenido a Clinicapp</h1>
+    <h4>Tareas del módulo 6</h4>
+    <p>Clinicapp es un sistema de registro clínico que brinda justo lo que tu organización necesita. </p>
+    <p>Ofrecemos una amplia gama de servicios, que incluyen:</p>
+    <ul>
+      <li>Landings como este (Tarea Individual 2)</li>
+      <li><a href="{% url 'ver_usuarios' %}">Visualización de Usuarios (Tarea individual 3)</a></li>
+      <li><a href="{% url 'agregar' %}">Creación de usuarios a través de formularios (Tarea Individual 4)</a></li>
+      <li>ETC</li>
+      
+    </ul>
+    <p>Estamos orgullosos de ser parte de nuestra comunidad y estamos comprometidos a brindar a nuestros clientes la más alta calidad de atención.</p>
+    <img src="https://images.pexels.com/photos/668298/pexels-photo-668298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Hospital">
+  </div>
+  <div>
+  <a href="contacto.html" class="btn btn-primary">Contacto</a></div>
+  {% endblock %}
+</body>
+</html>
