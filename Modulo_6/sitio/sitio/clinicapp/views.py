@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages #para poder mostrar mensajes
 
 # Create your views here.
 
@@ -58,6 +59,7 @@ def agregar_usuario(request):
             funcionario.vigencia = formulario.cleaned_data['vigencia']
 
             funcionario.save() #IMPORTANTE para que se almacene todo en la db
+            messages.success(request, 'Usuario ingresado exitosamente')
         else:
             print("Debe ingresar correctamente todos los campos")
 
