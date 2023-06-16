@@ -9,8 +9,8 @@ En cuanto al MÓDULO 6, la app se llama 'clinicapp'.
 Usuarios y contraseñas:
 
 admin:admin 
-rodrigo:contraseña 1 - Este usuario es el que tiene los permisos para agregar funcionarios
-amanda:contraseña 1 - Este usuario no tiene permisos para agregar funcionarios.
+katina:contraseña1 - Este usuario es el que tiene los permisos para agregar funcionarios
+amanda:contraseña1 - Este usuario no tiene permisos para agregar funcionarios.
 
 Las restricciones se implementaron de la siguiente forma:
 
