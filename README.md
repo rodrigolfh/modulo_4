@@ -6,6 +6,15 @@ Cada módulo tiene su carpeta
 
 En cuanto al MÓDULO 6, la app se llama 'clinicapp'.
 
+ClinicAPP es una aplicación de registro clínico en desarrollo.
+
+Funcionalidades:
+
+-Mostrar y agregar funcionarios,
+-Login y Logout
+-Restricciones de usuarios.
+
+
 Usuarios y contraseñas:
 
 admin:admin 
