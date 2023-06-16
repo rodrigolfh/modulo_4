@@ -5,8 +5,10 @@ from . import views #para que se pueda acceder a views.py
 urlpatterns = [
     path('', views.main, name='main'),
     path("agregar/", views.agregar_usuario, name = "agregar"),
-    path("ver_usuarios/", views.ver_usuarios, name = "ver_usuarios")
-    
+    path("ver_usuarios/", views.ver_usuarios, name = "ver_usuarios"),
+    path("ver_funcionarios/", views.ver_funcionarios, name = "ver_funcionarios"),
+    path("login/", views.login_view, name = "login"),
+    path("logout/", views.logout_view, name = "logout")        
 
 ]
 

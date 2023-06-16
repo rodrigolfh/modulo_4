@@ -1,0 +1,29 @@
+{% extends "clinicapp/base.html" %}
+
+{% block body %}
+
+  <img src="https://media.istockphoto.com/id/521247381/vector/avatars-characters.jpg?s=612x612&w=0&k=20&c=y1Em7kZDV6JvIAs576l_K-DQnDK_1CEDVPKCLaDZVp8=" alt="" width="200px">
+  
+<h1>Lista de Funcionarios (tabla user_manager_funcionario)</h1>
+<ol>
+    {% for usuario in users %}
+        <li>username: {{ usuario }}
+        <ul>
+            <li>RUT : {{usuario.rut}}</li>
+            <li>Nombre: {{usuario.nombre}}</li>
+            <li>Apellidos: {{usuario.apellidos}}</li>
+            <li>Cargo: {{usuario.cargo}}</li>
+            <br>
+        </ul>
+    </li>
+    {% endfor %}
+
+
+
+    
+
+    <img src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png" alt="" width="200">
+</ol>
+
+
+{% endblock %}

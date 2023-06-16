@@ -17,22 +17,30 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
+      <div class="navbar-nav w-100">
         <a class="nav-item nav-link active" href="{% url 'main' %}">Landing <span class="sr-only"></span></a>
         <a class="nav-item nav-link" href="{% url 'ver_usuarios' %}">Ver Usuarios auth_user</a>
-        <a class="nav-item nav-link" href="{% url 'agregar' %}">Ingresar Usuarios</a>
+        <a class="nav-item nav-link" href="{% url 'agregar' %}">Ingresar Funcionarios</a>
+        <a class="nav-item nav-link" href="{% url 'ver_funcionarios' %}">Ver Funcionarios</a>
+        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+        <a class="nav-item nav-link" href="{% url 'admin:index' %}">Admin</a>
+        
+        <a class="nav-item nav-link bg-success" href="">Usuario: {{user}}</pa>
+        <a class="nav-item nav-link bg-secondary" href="{% url 'admin:index' %}">LOGOUT(Pronto)</a>
         
       </div>
     </div>
   </nav>
+  <div>
+   
   {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <li>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
-
+</div>
   
 {% block body %}
 

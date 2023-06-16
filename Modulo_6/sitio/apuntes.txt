@@ -116,7 +116,7 @@ pero antes de la función index), que a su vez va a sacar datos de la base de da
                 return f"{self.nombre} {self.apellidos}"
     b. Hacer las migraciones, para que los modelos se agreguen a la base de datos:
         
-        $ python3 manage.py makemigrations
+        $ python3 manage.py makemigrations nombre_app #importante indicar el nombre de la app si es que hay más de una app.
         $ python3 maage.py migrate
 
 
@@ -174,15 +174,42 @@ pero antes de la función index), que a su vez va a sacar datos de la base de da
 
 
     def agregar_usuario(request):
+    formulario = AgregaFuncionarioForm() #se guarda los datos llenados por el usuario en esta variable
 
-        return render(request, 
-                      "user_manager/agregar.html", 
-                      {'formulario': AgregaFuncionarioForm(request.POST), #solicita envío
-                       'funcionarios': Funcionario.objects.all(), #para leer datos de funcionarios
-                       'pacientes': Paciente.objects.all() #para leer datos de pacientes
-                       }) 
+    if request.method == "POST": #es decir, si esto es un request de tipo "POST", realizar lo siguiente:
 
-importar redirect
+        formulario = AgregaFuncionarioForm(request.POST) #crea una instancia del formulario, con los datos entregados por el usuario
+        
+        if formulario.is_valid(): # si el formulario es válido,
+            funcionario = Funcionario() #para no escribirlo con mayúscula y paréntesis a cada rato
+
+            #si el formularo está validado, cleaned_data convierte la información a un diccionario, donde se asigna
+            y se 'normaliza' el value a un tipo de datos consistente.
+
+            funcionario.rut = formulario.cleaned_data['rut'] 
+            funcionario.nombre = formulario.cleaned_data['nombre']
+            funcionario.apellidos = formulario.cleaned_data['apellidos']
+            funcionario.género = formulario.cleaned_data['género']
+            funcionario.fono = formulario.cleaned_data['fono']
+
+            funcionario.dirección = formulario.cleaned_data['dirección'] 
+            funcionario.mail = formulario.cleaned_data['mail']
+            funcionario.contraseña = formulario.cleaned_data['contraseña']
+            funcionario.cargo = formulario.cleaned_data['cargo']
+            funcionario.especialidad = formulario.cleaned_data['especialidad']
+            
+            funcionario.vigencia = formulario.cleaned_data['vigencia']
+
+            funcionario.save() #IMPORTANTE para que se almacene todo en la db
+        else:
+            print("Debe ingresar correctamente todos los campos")
+
+        return redirect('agregar') #una vez enviado, redirige donde se le indique.
+
+    context = {'formulario': formulario}
+
+    return render(request,"user_manager/agregar.html", context)
+
 
 
 
@@ -220,5 +247,9 @@ def crear_profesor(request):
     
 
      
+
+HABILITAR MENSAJES:
+
+https://docs.djangoproject.com/en/4.2/ref/contrib/messages/
 
 

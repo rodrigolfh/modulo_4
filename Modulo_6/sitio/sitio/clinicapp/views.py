@@ -1,19 +1,47 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.contrib import messages #para poder mostrar mensajes
+from django.contrib import messages#para poder mostrar mensajes
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 
-# Create your views here.
+# Create your views here.mechanism
+
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["usuario"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, f'¡Enhorabuena, {username}!')
+            return HttpResponseRedirect(reverse("main"))
+        else: 
+            return render(request, "clinicapp/login.html", {"message": "Credenciales inválidas"})
+
+    return render(request, "clinicapp/login.html") #view del login
+
+
+def logout_view(request):
+    pass
+
+
 
 
 def main(request):
-  template = loader.get_template('main.html')
-  return HttpResponse(template.render())
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login")) #si el usuario no está autenticado, lo redigiremos al login_view
+    template = loader.get_template('main.html')
+    return HttpResponse(template.render())
 
 from django.shortcuts import render, redirect
 from django import forms
 from django.contrib.auth.models import User
-from .models import Funcionario, Paciente
+from .models import Funcionario
 
 class AgregaFuncionarioForm(forms.Form):
     rut = forms.CharField(label="RUT")
@@ -30,12 +58,21 @@ class AgregaFuncionarioForm(forms.Form):
 
 
 def ver_usuarios(request):
-    
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login_view")) #si el usuario no está autenticado, lo redigiremos al login_view
     users = User.objects.all()
     return render(request, 'clinicapp/ver_usuarios.html', { 'users':users})
 
+def ver_funcionarios(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login_view")) #si el usuario no está autenticado, lo redigiremos al login_view
+    users = Funcionario.objects.all()
+    return render(request, 'clinicapp/ver_funcionarios.html', { 'users':users})
+
 
 def agregar_usuario(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("login_view")) #si el usuario no está autenticado, lo redigiremos al login_view
     formulario = AgregaFuncionarioForm()
 
     if request.method == "POST":
