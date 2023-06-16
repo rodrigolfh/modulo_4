@@ -74,7 +74,7 @@ def ver_funcionarios(request):
     users = Funcionario.objects.all()
     return render(request, 'clinicapp/ver_funcionarios.html', { 'users':users})
 
-@permission_required("clinicapp.can_add_funcionario", raise_exception=True) #solo si tiene el permiso de agregar funcionario.
+@permission_required("clinicapp.add_funcionario", raise_exception=True) #solo si tiene el permiso de agregar funcionario.
 def agregar_usuario(request):
 
     formulario = AgregaFuncionarioForm()
