@@ -1,7 +1,16 @@
+#imports formularios
+
+from django.shortcuts import render, redirect
+from django import forms
+from django.contrib.auth.models import User
+from .models import Funcionario
+
+#imports solo views
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.contrib import messages#para poder mostrar mensajes
+from django.contrib import messages #para poder mostrar mensajes
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required #restricciones
@@ -11,6 +20,11 @@ from django.contrib.auth.decorators import login_required, permission_required #
 
 
 def login_view(request):
+    if 'next' in request.GET:
+        #si en la url está la palabra "next", generada al redirigir desde @login_required, enviar mensaje.
+        messages.add_message(request, messages.INFO, 'Debe ingresar para acceder a las funcionalidades.')
+
+
     if request.method == "POST":
         username = request.POST["usuario"]
         password = request.POST["password"]
@@ -22,8 +36,9 @@ def login_view(request):
             login(request, user)
           
             return HttpResponseRedirect(reverse("enhorabuena"))
-        else: 
-            return render(request, "clinicapp/login.html", {"message": "Credenciales inválidas"})
+        else:
+            context= ["Credenciales Inválidas"]#si no lo hago como lista, itera por cada caracter del string.
+            return render(request, "clinicapp/login.html", {"messages": context})
 
     return render(request, "clinicapp/login.html") #view del login
 
@@ -44,10 +59,6 @@ def main(request):
     template = loader.get_template('main.html')
     return HttpResponse(template.render())
 
-from django.shortcuts import render, redirect
-from django import forms
-from django.contrib.auth.models import User
-from .models import Funcionario
 
 class AgregaFuncionarioForm(forms.Form):
     rut = forms.CharField(label="RUT")
@@ -62,9 +73,10 @@ class AgregaFuncionarioForm(forms.Form):
     especialidad = forms.CharField(label="Especialidad")
     vigencia = forms.BooleanField(label="Vigencia", initial=True)
 
-@login_required
+@login_required()
 def ver_usuarios(request):
- 
+
+
     users = User.objects.all()
     return render(request, 'clinicapp/ver_usuarios.html', { 'users':users})
 
@@ -74,6 +86,7 @@ def ver_funcionarios(request):
     users = Funcionario.objects.all()
     return render(request, 'clinicapp/ver_funcionarios.html', { 'users':users})
 
+@login_required
 @permission_required("clinicapp.add_funcionario", raise_exception=True) #solo si tiene el permiso de agregar funcionario.
 def agregar_usuario(request):
 
