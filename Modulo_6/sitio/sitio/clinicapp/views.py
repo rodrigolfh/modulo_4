@@ -82,6 +82,7 @@ class AgregaFuncionarioForm(forms.Form):
 
 
 
+from django.contrib.auth.models import Group
 class RegistrarUsuarioForm(UserCreationForm): # hereda del formulario
     first_name = forms.CharField(max_length=32)
     last_name = forms.CharField(max_length=32)
@@ -94,41 +95,24 @@ class RegistrarUsuarioForm(UserCreationForm): # hereda del formulario
   
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'group')
 
-"""
-def registrar_usuario(request):
-    formulario = RegistrarUsuarioForm(request.POST) 
-    if formulario.is_valid():
-            user_obj = formulario.save() #por qué funciona, no lo se
-            messages.success(request, 'Usuario ingresado exitosamente')
-            return redirect('login')
-     
-    context = {'formulario': formulario}
-
-    return render(request,"clinicapp/agregar_usuario.html", context)
-"""
-from django.contrib.auth.models import Group
-
 
     
 
  
-
+@login_required
+@permission_required("clinicapp.registrar_usuario", raise_exception=True) #solo si tiene el permiso de agregar funcionario.
 def registrar_usuario(request):
 
     
-    #n = 1
-    #for grupo in Group.objects.all(): #busca los grupos existentes
-    #    opciones_grupo.append((n, grupo.group_id))
-    #    n += 1
-    #forms.ModelChoiceField(opciones_grupo)
     if request.method == 'POST':
         form = RegistrarUsuarioForm(request.POST)
         
         
         if form.is_valid():
-            user = form.save()       
-
-            user.groups.add(grupo)
+            group = form.cleaned_data['group']
+            user = form.save()
+            user.groups.add(group)  
+            messages.success(request, 'Usuario ingresado exitosamente')
             return redirect('login')
     else:
         form = RegistrarUsuarioForm()
