@@ -2,8 +2,14 @@
 
 from django.shortcuts import render, redirect
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .models import Funcionario
+from django.forms import ModelForm
+from django.contrib.auth import models
+from django.contrib.auth.forms import UserCreationForm
+from django.forms.formsets import formset_factory #formularios multiples
+
+
 
 #imports solo views
 
@@ -14,6 +20,7 @@ from django.contrib import messages #para poder mostrar mensajes
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required #restricciones
+from django.views.generic.edit import FormView
 
 # Create your views here
 
@@ -56,7 +63,7 @@ def enhorabuena_view(request):
 
 def main(request):
 
-    template = loader.get_template('main.html')
+    template = loader.get_template('main.html') #
     return HttpResponse(template.render())
 
 
@@ -73,7 +80,70 @@ class AgregaFuncionarioForm(forms.Form):
     especialidad = forms.CharField(label="Especialidad")
     vigencia = forms.BooleanField(label="Vigencia", initial=True)
 
-@login_required()
+
+
+class RegistrarUsuarioForm(UserCreationForm): # hereda del formulario
+    first_name = forms.CharField(max_length=32)
+    last_name = forms.CharField(max_length=32)
+    email = forms.EmailField(max_length=64)
+    group = forms.ModelChoiceField(queryset=Group.objects.all(),
+                                   required=True)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+  
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email', 'group')
+
+"""
+def registrar_usuario(request):
+    formulario = RegistrarUsuarioForm(request.POST) 
+    if formulario.is_valid():
+            user_obj = formulario.save() #por qué funciona, no lo se
+            messages.success(request, 'Usuario ingresado exitosamente')
+            return redirect('login')
+     
+    context = {'formulario': formulario}
+
+    return render(request,"clinicapp/agregar_usuario.html", context)
+"""
+from django.contrib.auth.models import Group
+
+
+    
+
+ 
+
+def registrar_usuario(request):
+
+    
+    #n = 1
+    #for grupo in Group.objects.all(): #busca los grupos existentes
+    #    opciones_grupo.append((n, grupo.group_id))
+    #    n += 1
+    #forms.ModelChoiceField(opciones_grupo)
+    if request.method == 'POST':
+        form = RegistrarUsuarioForm(request.POST)
+        
+        
+        if form.is_valid():
+            user = form.save()       
+
+            user.groups.add(grupo)
+            return redirect('login')
+    else:
+        form = RegistrarUsuarioForm()
+        
+    return render(request, "clinicapp/agregar_usuario.html", {'form': form})
+
+
+
+
+
+
+
+
+
+@login_required
 def ver_usuarios(request):
 
 

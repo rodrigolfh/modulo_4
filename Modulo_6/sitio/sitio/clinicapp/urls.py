@@ -9,7 +9,10 @@ urlpatterns = [
     path("ver_funcionarios/", views.ver_funcionarios, name = "ver_funcionarios"),
     path("login/", views.login_view, name = "login"),
     path("logout/", views.logout_view, name = "logout"),
-    path("enhorabuena/", views.enhorabuena_view, name = "enhorabuena")        
+    path("enhorabuena/", views.enhorabuena_view, name = "enhorabuena"),
+    path("agregar_usuario/", views.registrar_usuario, name = "agregar_usuario"), #as_view como recomendación de mismo django
+
+
 
 ]
 

@@ -253,3 +253,46 @@ HABILITAR MENSAJES:
 https://docs.djangoproject.com/en/4.2/ref/contrib/messages/
 
 
+AUTENTICACIÓN
+
+1. urls.py de nuestra APP:
+
+    a. agregar un urlpattern para dar acceso a nuestro view desde el enpoint /login
+
+        path("login", views.login_view, name = "login")    
+
+    b. agregar otro urlpattern, esta vez para dar acceso al view de /logout
+
+        path("logout", views.logout_view, name = "logout")
+
+2. views.py:
+
+    a. Ahora crearemos una función para revisar si el usuario está autenticado.
+
+        i. Primero, la función. Con esta función, si el usuario no está autenticado, se  redirigirá
+           a login_view.
+
+            def check_login(request):
+                if not request.user.is_authenticated:
+                return HttpResponseRedirect(reverse("login"))
+        
+        ii. Se debe importar HttpResponseRedirect desde django.http y reverse desde django.urls
+
+    b. Luego, se crea un view login_view:
+
+        def login_view(request):
+            return render(request, "clinicapp/login.html")
+
+3. template login.html:
+
+    En el template, además del código típico de cada template, haremos un formulario:
+
+        <form action="{% url 'login' %}" method = "post"> 
+        {%csrf_token%}
+        <input type="text" name = "usuario" placeholder = "Usuario">
+        <input type="password" name = "password" placeholder = "Contraseña">
+        <input type="submit" name = "Login" placeholder = "Usuario">
+        <form>
+
+        #type='password' oculta los caracteres escritos (*********)
+        

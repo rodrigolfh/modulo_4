@@ -39,3 +39,8 @@ class Paciente(Persona):
 
     def __str__(self):
         return f"{self.nombre} {self.apellidos}"
+    
+
+class UserExtra:
+    puede_agendar = models.BooleanField
+    puede_ver_agenda = models.BooleanField

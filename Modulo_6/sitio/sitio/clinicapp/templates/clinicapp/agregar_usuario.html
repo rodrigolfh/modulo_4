@@ -1,0 +1,18 @@
+{% extends "clinicapp/base.html" %}
+
+{% block body %}
+
+<h1>Agregar user</h1>
+    <form action="", method="POST">
+        {% csrf_token %}
+        <table>
+            {{form}}
+            {{grupo}}
+        </table>
+        <button type="submit">Enviar</button>
+    </form>
+
+
+
+
+{% endblock %}

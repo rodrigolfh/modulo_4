@@ -22,13 +22,14 @@
         <a class="nav-item nav-link" href="{% url 'ver_usuarios' %}">Ver Usuarios auth_user</a>
         <a class="nav-item nav-link" href="{% url 'agregar' %}">Ingresar Funcionarios</a>
         <a class="nav-item nav-link" href="{% url 'ver_funcionarios' %}">Ver Funcionarios</a>
+        <a class="nav-item nav-link" href="{% url 'agregar_usuario' %}">Agregar user</a>
         
           {%if user.is_active%}
           <a class="nav-item nav-link bg-primary" href="">Usuario: {{user}}</a>
           <a class="nav-item nav-link bg-success" href="{% url 'logout' %}">SALIR</a>
 
           {%else%}
-          <a class="nav-item nav-link bg-secondary" href="{% url 'login' %}">Ingrese Aquí</a>
+          <a class="nav-item nav-link bg-success" href="{% url 'login' %}">Ingrese Aquí</a>
 
           {%endif%}
           <a class="nav-item nav-link bg-secondary" href="{% url 'admin:index' %}">Admin</a>
