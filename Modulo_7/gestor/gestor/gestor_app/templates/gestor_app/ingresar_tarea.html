@@ -1,0 +1,17 @@
+{% extends 'gestor_app/base.html' %}
+
+{%block body%}
+
+<h1>Ingrese una tarea</h1>
+    <form action="", method="POST">
+        {% csrf_token %}
+        <table>
+            {{form}}
+            {{ form.vencimiento }}
+            
+        </table>
+        <button type="submit">Ingresar</button>
+    </form>
+
+
+{%endblock%}

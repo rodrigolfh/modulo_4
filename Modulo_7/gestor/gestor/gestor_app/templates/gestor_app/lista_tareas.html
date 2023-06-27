@@ -1,0 +1,29 @@
+{% extends "gestor_app/base.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+    <p>Usuario: {{ user.get_username }}</p>
+{% else %}
+    <p>No Logueado.</p>
+{% endif %}
+  
+<h1>Tareas</h1>
+<ol>
+    {% for tarea in tareas %}
+        <ul>
+        <li>Usuario: {{ tarea.usuario }}</li>
+        <li>Tarea: {{ tarea.título }}</li>
+        <li>Descripción: {{ tarea.descripción }}</li>
+        <li>Categoría: {{ tarea.categoría }}</li>
+        <li>Estado: {{ tarea.estado }}</li>
+        </ul>
+        <br>
+       
+    
+    {% endfor %}
+</ol>
+
+{%endblock%}
+
+

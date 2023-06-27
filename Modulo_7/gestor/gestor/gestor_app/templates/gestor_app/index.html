@@ -1,0 +1,13 @@
+{% extends 'gestor_app/base.html' %}
+
+{%block body%}
+
+<ul>
+{%for tarea in tareas%}
+
+    <li>{{tarea}}</li>
+{% endfor %}
+</ul>
+
+
+{%endblock%}
