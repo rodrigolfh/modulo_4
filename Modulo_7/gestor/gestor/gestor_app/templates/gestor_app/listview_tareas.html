@@ -1,0 +1,39 @@
+{% extends "gestor_app/base.html" %}
+
+{% block body %}
+
+{% if user.is_authenticated %}
+   
+{% else %}
+    <p>No Logueado.</p>
+{% endif %}
+  
+{% if object_list %} {# object_list es el 'context' automático de listview #}
+
+<h3>Tareas</h3>
+
+{% endif %}
+
+<ul>
+
+    {% for tarea in object_list %}
+
+    <li>
+
+
+    </li>
+
+    {% empty %}
+
+    <h4>You have no lists!</h4>
+
+    {% endfor %}
+
+</ul>
+
+
+
+
+{%endblock%}
+
+

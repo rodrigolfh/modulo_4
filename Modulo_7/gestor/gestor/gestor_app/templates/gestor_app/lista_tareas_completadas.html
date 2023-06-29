@@ -8,7 +8,7 @@
     <p>No Logueado.</p>
 {% endif %}
   
-<h1>Tareas Pendientes</h1>
+<h1>Tareas Completadas</h1>
 <ol>
     
     {% for tarea in tareas %}
@@ -18,7 +18,6 @@
         <li>Descripción: {{ tarea.descripción }}</li>
         <li>Categoría: {{ tarea.categoría }}</li>
         <li>Estado: {{ tarea.estado }}</li>
-        <li>Fecha : {{tarea.vencimiento_fecha}}
         </ul>
         <br>
        

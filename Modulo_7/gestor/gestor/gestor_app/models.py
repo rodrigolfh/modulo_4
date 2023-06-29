@@ -28,7 +28,7 @@ class Tarea(models.Model):
     vencimiento_hora = models.TimeField
     opciones_estado = [
         ("PENDIENTE", "Pendiente"),
-        ("ENPROGRESO", "En Progreso"),
+        ("EN PROGRESO", "En Progreso"),
         ("COMPLETADA", "Completada"),
     ]
     estado = models.CharField(max_length=11, choices=opciones_estado)
