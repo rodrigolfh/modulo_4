@@ -1,0 +1,13 @@
+{% extends "gestor_app/base.html" %}
+
+{% block body %}
+
+  <h1>Edit Tarea</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
+
+

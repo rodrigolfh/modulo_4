@@ -1,39 +1,80 @@
 {% extends "gestor_app/base.html" %}
-
 {% block body %}
+  <h1>Tarea List</h1>
+  <form method="get" action="{% url 'tareas-list' %}">
+    <label for="estado_filter">Estado:</label>
+    <select name="estado_filter" id="estado_filter">
+      <option value="">All</option>
+      {% for choice in tarea_form.fields.estado.choices %}
+        <option value="{{ choice.0 }}" {% if choice.0 == request.GET.estado_filter %}selected{% endif %}>
+          {{ choice.1 }}
+        </option>
+      {% endfor %}
+    </select>
 
-{% if user.is_authenticated %}
-   
-{% else %}
-    <p>No Logueado.</p>
-{% endif %}
-  
-{% if object_list %} {# object_list es el 'context' automático de listview #}
+    <label for="categoria_filter">Categoría:</label>
+    <select name="categoria_filter" id="categoria_filter">
+      <option value="">All</option>
+      {% for choice in tarea_form.fields.categoría.choices %}
+        <option value="{{ choice.0 }}" {% if choice.0 == request.GET.categoria_filter %}selected{% endif %}>
+          {{ choice.1 }}
+        </option>
+      {% endfor %}
+    </select>
 
-<h3>Tareas</h3>
+    <button type="submit">Filter</button>
+  </form>
 
-{% endif %}
-
-<ul>
-
-    {% for tarea in object_list %}
-
-    <li>
-
-
-    </li>
-
-    {% empty %}
-
-    <h4>You have no lists!</h4>
-
-    {% endfor %}
-
-</ul>
-
-
-
-
-{%endblock%}
-
-
+  <table>
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Vencimiento Fecha</th>
+        <th>Vencimiento Hora</th>
+        <th>Estado</th>
+        <th>Categoría</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tarea in object_list %}
+        <tr>
+          <td>{{ tarea.título }}</td>
+          <td>{{ tarea.descripción }}</td>
+          <td>{{ tarea.vencimiento_fecha }}</td>
+          <td>{{ tarea.vencimiento_hora }}</td>
+          <td>
+            <form method="post" action="{% url 'tareas-edit' tarea.id %}">
+              {% csrf_token %}
+              {{ tarea.estado }}
+              <select name="estado" onchange="this.form.submit()">
+                {% for choice in tarea_form.fields.estado.choices %}
+                  <option value="{{ choice.0 }}" {% if choice.0 == tarea.estado %}selected{% endif %}>
+                    {{ choice.1 }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method="post" action="{% url 'tareas-edit' tarea.id %}">
+              {% csrf_token %}
+              {{ tarea.categoría }}
+              <select name="categoría" onchange="this.form.submit()">
+                {% for choice in tarea_form.fields.categoría.choices %}
+                  <option value="{{ choice.0 }}" {% if choice.0 == tarea.categoría %}selected{% endif %}>
+                    {{ choice.1 }}
+                  </option>
+                {% endfor %}
+              </select>
+            </form>
+          </td>
+          <td>
+            <a href="{% url 'tareas-edit' tarea.id %}">Editar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

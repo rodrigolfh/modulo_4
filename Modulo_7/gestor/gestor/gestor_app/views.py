@@ -7,7 +7,8 @@ from django.urls import reverse
 from django.contrib.auth.models import Group, User
 #imports listview
 
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
+from django.db.models import Q
 
 
 
@@ -114,6 +115,56 @@ def lista_tareas_completadas(request):
     tareas = Tarea.objects.filter(estado="COMPLETADA") #solo completadas
     return render(request, 'gestor_app/lista_tareas_completadas.html', { 'tareas':tareas})
 
+"""
 class TareasListView(ListView):
     model = Tarea
     template_name = "gestor_app/listview_tareas.html"
+
+"""
+
+class TareasListView(ListView):
+    model = Tarea
+    template_name = "gestor_app/listview_tareas.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tarea_form = TareaForm()
+        context['tarea_form'] = tarea_form
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        estado_filter = self.request.GET.get('estado_filter')
+        categoria_filter = self.request.GET.get('categoria_filter')
+
+        if estado_filter and categoria_filter:
+            # Filtering by both estado and categoria
+            queryset = queryset.filter(
+                Q(estado=estado_filter) & Q(categoría=categoria_filter)
+            )
+        elif estado_filter:
+            # Filtering by estado only
+            queryset = queryset.filter(estado=estado_filter)
+        elif categoria_filter:
+            # Filtering by categoria only
+            queryset = queryset.filter(categoría=categoria_filter)
+
+        return queryset
+
+    def post(self, request, *args, **kwargs):
+        form = TareaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('tareas-list'))
+        else:
+            context = self.get_context_data(**kwargs)
+            context['tarea_form'] = form
+            return self.render_to_response(context)
+        
+class TareaEditView(UpdateView):
+    model = Tarea
+    form_class = TareaForm
+    template_name = "gestor_app/edit_tarea.html"
+
+    def get_success_url(self):
+        return reverse('tareas-list')
