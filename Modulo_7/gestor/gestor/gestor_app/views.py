@@ -125,6 +125,7 @@ class TareasListView(ListView):
 class TareasListView(ListView):
     model = Tarea
     template_name = "gestor_app/listview_tareas.html"
+    ordering = ['vencimiento_fecha', 'vencimiento_hora']
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -152,6 +153,18 @@ class TareasListView(ListView):
         return queryset
 
     def post(self, request, *args, **kwargs):
+        tarea_id = request.POST.get('tarea_id')
+        tarea = Tarea.objects.get(id=tarea_id)
+
+        if 'estado' in request.POST:
+            tarea.estado = request.POST['estado']
+        elif 'categoria' in request.POST:
+            tarea.categoría = request.POST['categoria']
+        
+        tarea.save()
+        return redirect('tareas-list')
+
+"""
         form = TareaForm(request.POST)
         if form.is_valid():
             form.save()
@@ -161,6 +174,7 @@ class TareasListView(ListView):
             context['tarea_form'] = form
             return self.render_to_response(context)
         
+"""
 class TareaEditView(UpdateView):
     model = Tarea
     form_class = TareaForm

@@ -1,6 +1,6 @@
 {% extends "gestor_app/base.html" %}
 {% block body %}
-  <h1>Tarea List</h1>
+  <h1>Tareas ListView</h1>
   <form method="get" action="{% url 'tareas-list' %}">
     <label for="estado_filter">Estado:</label>
     <select name="estado_filter" id="estado_filter">
@@ -25,13 +25,13 @@
     <button type="submit">Filter</button>
   </form>
 
-  <table>
-    <thead>
+  <table class="table">
+    <thead class="thead-dark">
       <tr>
         <th>Título</th>
         <th>Descripción</th>
-        <th>Vencimiento Fecha</th>
-        <th>Vencimiento Hora</th>
+        <th>Fecha</th>
+        <th>Hora</th>
         <th>Estado</th>
         <th>Categoría</th>
         <th>Edit</th>
@@ -42,10 +42,10 @@
         <tr>
           <td>{{ tarea.título }}</td>
           <td>{{ tarea.descripción }}</td>
-          <td>{{ tarea.vencimiento_fecha }}</td>
-          <td>{{ tarea.vencimiento_hora }}</td>
+          <td>{{ tarea.vencimiento_fecha|date:"d-m-Y" }}</td>
+          <td>{{ tarea.vencimiento_hora|time:"H:i" }}</td>
           <td>
-            <form method="post" action="{% url 'tareas-edit' tarea.id %}">
+            <form method="post" action="{% url 'tareas-list' %}">
               {% csrf_token %}
               {{ tarea.estado }}
               <select name="estado" onchange="this.form.submit()">
@@ -55,19 +55,21 @@
                   </option>
                 {% endfor %}
               </select>
+              <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
             </form>
           </td>
           <td>
-            <form method="post" action="{% url 'tareas-edit' tarea.id %}">
+            <form method="post" action="{% url 'tareas-list' %}">
               {% csrf_token %}
               {{ tarea.categoría }}
-              <select name="categoría" onchange="this.form.submit()">
+              <select name="categoria" onchange="this.form.submit()">
                 {% for choice in tarea_form.fields.categoría.choices %}
                   <option value="{{ choice.0 }}" {% if choice.0 == tarea.categoría %}selected{% endif %}>
                     {{ choice.1 }}
                   </option>
                 {% endfor %}
               </select>
+              <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
             </form>
           </td>
           <td>

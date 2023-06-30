@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav w-100">
           {%if user.is_active%}
-          
+          <a class="nav-item nav-link" href="{% url 'tareas-list' %}">Inicio Tareas</a>
             <a class="nav-item nav-link" href="{% url 'lista_tareas' %}">Tareas pendientes<span class="sr-only"></span></a>
             <a class="nav-item nav-link" href="{% url 'lista_tareas_completadas' %}">Tareas completadas (pronto)</a>
             <a class="nav-item nav-link" href="{% url 'ingresar_tarea' %}">Ingresar nueva Tarea</a>

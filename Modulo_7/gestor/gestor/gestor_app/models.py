@@ -24,8 +24,8 @@ class Tarea(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True) #se le da null=True solo para migrar y crear las tablas, luego se saca.
     título = models.CharField(max_length=30)
     descripción = models.CharField(max_length=200)
-    vencimiento_fecha = models.DateField
-    vencimiento_hora = models.TimeField
+    vencimiento_fecha = models.DateField(null=True)
+    vencimiento_hora = models.TimeField(null=True)
     opciones_estado = [
         ("PENDIENTE", "Pendiente"),
         ("EN PROGRESO", "En Progreso"),
