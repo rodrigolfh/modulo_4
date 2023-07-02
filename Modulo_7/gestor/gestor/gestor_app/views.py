@@ -3,11 +3,11 @@ from .models import RegistrarUsuarioForm, TareaForm, Tarea
 from django.contrib import messages #para poder mostrar mensajes
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import Group, User
 #imports listview
 
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DeleteView
 from django.db.models import Q
 
 
@@ -95,7 +95,8 @@ def ingresar_tarea(request):
 def lista_tareas(request):
 
 
-    tareas = Tarea.objects.exclude(estado="COMPLETADA") #solo en progreso y pendiente
+    tareas = Tarea.objects.exclude(estado="COMPLETADA").filter(usuario__username=request.user) #excluye completadas y luego filtra solo usuario logueado
+ 
     ordering = ['-vencimiento_fecha']
     return render(request, 'gestor_app/lista_tareas.html', { 'tareas':tareas})
 
@@ -112,15 +113,10 @@ def lista_tareas_listview(ListView):
 def lista_tareas_completadas(request):
 
 
-    tareas = Tarea.objects.filter(estado="COMPLETADA") #solo completadas
+    tareas = Tarea.objects.filter(estado="COMPLETADA").filter(usuario__username=request.user) #solo completadas y del usuario logueado
     return render(request, 'gestor_app/lista_tareas_completadas.html', { 'tareas':tareas})
 
-"""
-class TareasListView(ListView):
-    model = Tarea
-    template_name = "gestor_app/listview_tareas.html"
 
-"""
 
 class TareasListView(ListView):
     model = Tarea
@@ -137,18 +133,23 @@ class TareasListView(ListView):
         queryset = super().get_queryset()
         estado_filter = self.request.GET.get('estado_filter')
         categoria_filter = self.request.GET.get('categoria_filter')
+        user = self.request.user
+
 
         if estado_filter and categoria_filter:
             # Filtering by both estado and categoria
             queryset = queryset.filter(
-                Q(estado=estado_filter) & Q(categoría=categoria_filter)
+                Q(estado=estado_filter) & Q(categoría=categoria_filter) & Q(usuario=user)
             )
         elif estado_filter:
             # Filtering by estado only
-            queryset = queryset.filter(estado=estado_filter)
+            queryset = queryset.filter(estado=estado_filter, usuario=user)
         elif categoria_filter:
             # Filtering by categoria only
-            queryset = queryset.filter(categoría=categoria_filter)
+            queryset = queryset.filter(categoría=categoria_filter, usuario=user)
+        
+        else:
+            queryset = queryset.filter(usuario=user)
 
         return queryset
 
@@ -163,6 +164,10 @@ class TareasListView(ListView):
         
         tarea.save()
         return redirect('tareas-list')
+
+
+     
+
 
 """
         form = TareaForm(request.POST)
@@ -182,3 +187,22 @@ class TareaEditView(UpdateView):
 
     def get_success_url(self):
         return reverse('tareas-list')
+
+    def get_object(self, queryset=None):
+        tarea = super().get_object(queryset)
+        estado = self.request.GET.get('estado')
+        if estado == 'COMPLETADA':
+            tarea.estado = estado
+            tarea.save()
+        return tarea
+
+class TareaDeleteView(DeleteView):
+    model = Tarea
+
+    def get_success_url(self):
+        return reverse_lazy("tareas-list") #cundo se elimina una tarea con éxito, devuelve al listview
+
+    def get_context_data(self, **kwargs): #entrega contexto, en este caso el id de la tarea a eliminar.
+        context = super().get_context_data(**kwargs)
+        context["tarea"] = self.object.id
+        return context

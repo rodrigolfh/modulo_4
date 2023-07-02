@@ -1,6 +1,6 @@
 {% extends "gestor_app/base.html" %}
 {% block body %}
-  <h1>Tareas ListView</h1>
+  <h1>Tareas ListView de {{user}}</h1>
   <form method="get" action="{% url 'tareas-list' %}">
     <label for="estado_filter">Estado:</label>
     <select name="estado_filter" id="estado_filter">
@@ -34,7 +34,8 @@
         <th>Hora</th>
         <th>Estado</th>
         <th>Categoría</th>
-        <th>Edit</th>
+        <th>Acciones</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -73,7 +74,17 @@
             </form>
           </td>
           <td>
-            <a href="{% url 'tareas-edit' tarea.id %}">Editar</a>
+            
+            
+            <form method="post" action="{% url 'tareas-list' %}">
+              {% csrf_token %}
+              <a class="btn btn-outline-primary" href="{% url 'tareas-edit' tarea.id %}" role="button">Editar</a>
+              <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
+              <button class="btn btn-outline-success" type="submit" name="estado" value="COMPLETADA">Completar</button>
+              <a class="btn btn-outline-danger" href="{% url 'tareas-delete' tarea.id %}" role="button">Eliminar</a>
+            </form>
+
+            
           </td>
         </tr>
       {% endfor %}
