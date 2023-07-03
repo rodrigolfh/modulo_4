@@ -45,19 +45,19 @@ class Tarea(models.Model):
 
 #####Formularios
 
-class RegistrarUsuarioForm(UserCreationForm): # hereda del formulario
+class RegistrarUsuarioForm(UserCreationForm): # hereda del formulario UserCreationForm. Este
     first_name = forms.CharField(max_length=32)
     last_name = forms.CharField(max_length=32)
-    email = forms.EmailField(max_length=64) #sólo se eligen algunos campos
+    email = forms.EmailField(max_length=64) #sólo se definen algunos campos
   
-    class Meta(UserCreationForm.Meta):
+    class Meta(UserCreationForm.Meta): #con Meta se define cuáles se mostrarán
         model = User
   
         fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email')
 
-class TareaForm(forms.ModelForm):
-    vencimiento_fecha = forms.DateField(widget=AdminDateWidget(attrs={'type': 'date'}))
-    vencimiento_hora = forms.TimeField(widget=AdminTimeWidget(attrs={'type': 'time'}))
+class TareaForm(forms.ModelForm):#heredamos de ModelForm, que genera un formulario a partir del modelo indicado en el Meta
+    vencimiento_fecha = forms.DateField(widget=AdminDateWidget(attrs={'type': 'date'})) #indicamos la utilización del widget del admin para elegir fecha
+    vencimiento_hora = forms.TimeField(widget=AdminTimeWidget(attrs={'type': 'time'})) #y hora
    
        
     class Meta:

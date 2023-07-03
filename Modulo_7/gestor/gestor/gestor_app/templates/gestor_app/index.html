@@ -1,13 +1,32 @@
 {% extends 'gestor_app/base.html' %}
+{%load static%}
 
 {%block body%}
 
-<ul>
-{%for tarea in tareas%}
+<img src="{% static 'task-done-flat.png' %}" alt="Tarea">
+<h1> ¡Bienvenid@ al gestor de tareas! </h1>
 
-    <li>{{tarea}}</li>
-{% endfor %}
-</ul>
 
+  <div class="container">
+    <h2>Usuarios</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Contraseña</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>admin</td>
+          <td>admin</td>
+        </tr>
+        <tr>
+          <td>rodrigo</td>
+          <td>contraseña</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 {%endblock%}
