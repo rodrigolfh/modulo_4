@@ -10,9 +10,9 @@ urlpatterns = [
     path("lista_tareas", views.lista_tareas, name="lista_tareas"),
     path("logout", views.logout_view, name="logout"),
     path("lista_tareas_completadas", views.lista_tareas_completadas, name="lista_tareas_completadas"),
-    path("listview_tareas", views.TareasListView.as_view(), name="tareas-list"),
-    path('tareas/<int:pk>/edit/', views.TareaEditView.as_view(), name='tareas-edit'),
-    path('tareas/<int:pk>/delete/', views.TareaDeleteView.as_view(), name='tareas-delete'),
+    path("listview_tareas", views.TareasListView, name="tareas-list"),
+    path('tareas/<int:pk>/edit/', views.TareaEditView, name='tareas-edit'),
+    path('tareas/<int:pk>/delete/', views.TareaDeleteView, name='tareas-delete'),
    
 
 ]
