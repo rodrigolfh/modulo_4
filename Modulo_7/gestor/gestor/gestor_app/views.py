@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import Group, User
+from django.contrib.auth.decorators import login_required
 #imports listview
 
 from django.views.generic import ListView, UpdateView, DeleteView
@@ -75,6 +76,8 @@ def logout_view(request):
     logout(request)
     return render(request, "gestor_app/logout.html")
 
+
+@login_required
 def ingresar_tarea(request):
     if request.method == 'POST': #si el usuario hace click en 'ingresar', el método pasa a ser POST
         
@@ -93,6 +96,7 @@ def ingresar_tarea(request):
         
     return render(request, "gestor_app/ingresar_tarea.html", {'form': form}) #render con contexto
 
+@login_required
 def lista_tareas(request): #view de lista básica de tareas, excluye las completadas
 
 
@@ -102,7 +106,7 @@ def lista_tareas(request): #view de lista básica de tareas, excluye las complet
     return render(request, 'gestor_app/lista_tareas.html', { 'tareas':tareas})
 
 
-
+@login_required
 def lista_tareas_completadas(request): #lista básica de tareas completadas
 
 
@@ -110,7 +114,7 @@ def lista_tareas_completadas(request): #lista básica de tareas completadas
     return render(request, 'gestor_app/lista_tareas_completadas.html', { 'tareas':tareas})
 
 
-
+@login_required
 class TareasListView(ListView): #listview es un class-based-view de django, que da la funcionalidad para mostrar datos en formato de lista.
     #los parámetros se asignan a variables
     model = Tarea #se indica modelo
@@ -166,7 +170,7 @@ class TareasListView(ListView): #listview es un class-based-view de django, que 
      
 
 
-
+@login_required
 class TareaEditView(UpdateView): #Updateview es un class-based view usado para actualizar datos
     model = Tarea #se elige el modelo
     form_class = TareaForm #se elige el formulario
@@ -183,6 +187,7 @@ class TareaEditView(UpdateView): #Updateview es un class-based view usado para a
             tarea.save() #se guarda
         return tarea
 
+@login_required
 class TareaDeleteView(DeleteView): #para borrar una tarea
     model = Tarea #se elige modelo
 
