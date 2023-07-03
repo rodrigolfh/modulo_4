@@ -3,9 +3,34 @@
 Este es el repositorio de las tareas individuales desde el módulo 4 en adelante.
 
 Cada módulo tiene su carpeta
+---------------
+Módulo 7
+---------------
+- Nombre de la app: gestor_app
+- Ver requirements.txt para replicar requerimientos de dependencias.
+- URL al montar servidor local: http://127.0.0.1:8000/gestor_app
+- En upload de la tarea se adjunta export de base de datos llamada 'postgres', en formato .tar, codificación utf-8.
+- admin:admin y rodrigo:contraseña
+- Si no se exporta y se parte con base desde cero, ojo que hay que crear un grupo de usuarios en la db llamado 'usuario_normal'.
+- Configuración de la base:
+  DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'admin',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5433'
+    }
+}
 
+
+
+
+
+-----------------
 En cuanto al MÓDULO 6, la app se llama 'clinicapp'.
-
+------------------
 ClinicAPP es una aplicación de registro clínico en desarrollo.
 
 Funcionalidades:
