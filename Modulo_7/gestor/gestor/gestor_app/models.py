@@ -63,11 +63,16 @@ class TareaForm(forms.ModelForm):#heredamos de ModelForm, que genera un formular
        
     class Meta:
         model = Tarea
-        fields = ['título', 'descripción', 'vencimiento_fecha', 'vencimiento_hora', 'estado', 'categoría']
+        fields = ['título', 'descripción', 'vencimiento_fecha', 'vencimiento_hora', 'estado', 'categoría', 'observación']
 
 
 
+class MiniObservaciónForm(forms.ModelForm):
+    observación = forms.CharField(max_length=1024)
 
+    class Meta:
+        model=Tarea
+        fields = ['observación']
 
     
 

@@ -88,17 +88,60 @@
             
           </td>
           <td>
-            <div class="accordion" id="accordionExample">
+            <div class="accordion" id="accordion_{{tarea.id}}">
   
             <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Accordion Item
+              <h2 class="accordion-header" id="heading_{{tarea.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_{{tarea.id}}" aria-expanded="false" aria-controls="collapse_{{tarea.id}}">
+                  {%if tarea.observación %}
+                  Ver Observaciones
+                  {%else%}
+                  Sin observaciones. Despliegue para agregar.
+                  {%endif%}
                 </button>
               </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+              <div id="collapse_{{tarea.id}}" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                  {%if tarea.observación %}
+
+                    <form method="get" action="{% url 'tareas-list' %}">
+                    <label for="observación"></label>
+                    <textarea class="form-control" type="text" id="observación" name="observación" >{{tarea.observación}}</textarea>
+                        
+                
+                    <button class="btn btn-outline-success" type="submit">Guardar</button>
+                  </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  {%else%}
+
+                  
+                  <form method="get" action="{% url 'tareas-list' %}">
+                    <label for="observación"></label>
+                    <textarea class="form-control" type="text" id="observación" name="observación" >Agregue observación aquí</textarea>
+                        
+                
+                    <button class="btn btn-outline-success" type="submit">Guardar</button>
+                  </form>
+
+                  {%endif%}
                 </div>
               </div>
             </div>
