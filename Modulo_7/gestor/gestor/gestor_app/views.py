@@ -175,15 +175,13 @@ class TareaEditView(UpdateView): #Updateview es un class-based view usado para a
     form_class = TareaForm #se elige el formulario
     template_name = "gestor_app/edit_tarea.html" #se elige el template
 
-    def get_success_url(self): #override del metodo que la clase usa al completar exitosamente la edición. En este vaso redirige al list-view
+    def get_success_url(self): #override del metodo que la clase usa al completar exitosamente la edición. En este paso redirige al list-view
         return reverse('tareas-list')
 
     def get_object(self, queryset=None): #override del método de la clase padre.
         tarea = super().get_object(queryset) #obtiene el objeto tarea y lo asigna a esta variable
-        estado = self.request.GET.get('estado') #obtiene el valor de 'estado' y lo asigna a la variable
-        if estado == 'COMPLETADA': #si el estado es 'COMPLETADA' en el choicefield
-            tarea.estado = estado # se actualiza el estado de la tarea
-            tarea.save() #se guarda
+       
+        tarea.save() #se guarda
         return tarea
 
 class TareaDeleteView(DeleteView): #para borrar una tarea
