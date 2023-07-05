@@ -104,42 +104,56 @@
                 <div class="accordion-body">
                   {%if tarea.observación %}
 
-                    <form method="get" action="{% url 'tareas-list' %}">
+                    <form method="post" id="formulario-obs-{{tarea.id}}" action="{% url 'tareas-list'%}">
+                      {% csrf_token %}
+                      <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
                     <label for="observación"></label>
-                    <textarea class="form-control" type="text" id="observación" name="observación" >{{tarea.observación}}</textarea>
+                    <textarea class="form-control" type="text" id="observación"  name="observación">{{tarea.observación}}</textarea>
                         
                 
-                    <button class="btn btn-outline-success" type="submit">Guardar</button>
+                    <button  onclick="this.form.submit()" class="btn btn-outline-success" type="submit">Guardar</button>
                   </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
                   {%else%}
 
-                  
-                  <form method="get" action="{% url 'tareas-list' %}">
-                    <label for="observación"></label>
-                    <textarea class="form-control" type="text" id="observación" name="observación" >Agregue observación aquí</textarea>
-                        
-                
-                    <button class="btn btn-outline-success" type="submit">Guardar</button>
+                  <form method="post" id="formulario-obs-{{tarea.id}}" action="{% url 'tareas-list'%}">
+                    {% csrf_token %}
+                    <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
+                  <label for="observación"></label>
+                  <textarea class="form-control" type="text" id="observación"  name="observación">Agregue observaciones Aquí</textarea>
+                      
+              
+                  <button  onclick="this.form.submit()" class="btn btn-outline-success" type="submit">Guardar</button>
                   </form>
+                  
+               
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                   {%endif%}
                 </div>

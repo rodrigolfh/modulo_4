@@ -40,6 +40,9 @@ class Tarea(models.Model):
     categoría = models.CharField(max_length=7, choices=opciones_categoría)
     observación = models.CharField(max_length=1024, null=True)
 
+    def __str__(self):
+        return(self.título)
+
    
 
 

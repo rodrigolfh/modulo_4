@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 #imports listview
 
 from django.views.generic import ListView, UpdateView, DeleteView
@@ -134,7 +135,7 @@ class TareasListView(ListView): #listview es un class-based-view de django, que 
         estado_filter = self.request.GET.get('estado_filter') #si se ha seleccionado un filtro de estado, se asigna a esta variable
         categoria_filter = self.request.GET.get('categoria_filter') #si se ha seleccionado un filtro de categoría, se asigna a esta variable
         #estas variables no se asignan si el usuario no selecciona filtros
-
+        tarea_id = self.request.GET.get('tarea_id')
         user = self.request.user #se asigna el usuario logueado a una variable para usarlo más abajo.
 
         #si se cumplen las siguientes pruebas lógicas, se realiza un queryset con los parámetros indicados por los choicefields:
@@ -156,13 +157,20 @@ class TareasListView(ListView): #listview es un class-based-view de django, que 
 
     def post(self, request, *args, **kwargs): #override de post de la clase padre (ListView)
         tarea_id = request.POST.get('tarea_id') #obtiene el tarea_ide de los parámetros del POST, cada vez que se presiona "Completar" o "Eliminar"
+        print(f"tarea_id = {tarea_id}")
         tarea = Tarea.objects.get(id=tarea_id) #obtiene el objeto Tarea asociado al tarea_id obtenido en la línea anterior.
+        print(f"tarea = {tarea}")       
 
         if 'estado' in request.POST: #si en el POST viene un campo 'estado':
             tarea.estado = request.POST['estado'] #actualiza el campo con el valor correspondiente
         elif 'categoria' in request.POST: #si en el POST viene un campo 'categoría':
             tarea.categoría = request.POST['categoria'] #acrualiza el campo con el valor correspondiente
-        
+        elif 'observación' in request.POST:
+            tarea.observación = request.POST['observación']
+
+        else:
+            tarea.save()    
+    
         tarea.save() #guarda
         return redirect('tareas-list') #redirige al listview, reflejándose el cambio de inmediato.
 
