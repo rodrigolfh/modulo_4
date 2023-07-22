@@ -4,13 +4,14 @@ Este es el repositorio de las tareas individuales desde el módulo 4 en adelante
 
 Cada módulo tiene su carpeta
 ---------------
-Módulo 7
+Módulo 7, váldo también para SPRINT
 ---------------
 - Nombre de la app: gestor_app
 - Ver requirements.txt para replicar requerimientos de dependencias.
 - URL al montar servidor local: http://127.0.0.1:8000/gestor_app
 - En upload de la tarea se adjunta export de base de datos llamada 'postgres', en formato .tar, codificación utf-8.
-- admin:admin y rodrigo:contraseña
+- Para SPRINT, se adjunta en el raíz del proyecto archivo dbsprint.pgsql
+- admin:admin y rodrigolfh:contraseña
 - Si no se exporta y se parte con base desde cero, ojo que hay que crear un grupo de usuarios en la db llamado 'usuario_normal'.
 - Configuración de la base:
   DATABASES = {
