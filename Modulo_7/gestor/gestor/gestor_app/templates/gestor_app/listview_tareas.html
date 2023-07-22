@@ -34,9 +34,9 @@
         <th>Hora</th>
         <th>Estado</th>
         <th>Categoría</th>
+        <th>Prioridad</th>
         <th>Acciones</th>
-        <th>Observaciones<th>
-        
+        <th>Observaciones</th>
       </tr>
     </thead>
     <tbody>
@@ -72,6 +72,22 @@
                 {% endfor %}
               </select>
               <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
+            </form>
+          </td>
+          <td>
+            <!--aca agregando prioridad-->
+            <form method="post" action="{% url 'tareas-list' %}">
+              {% csrf_token %}
+              {{ tarea.prioridad }}
+              <select name="prioridad" onchange="this.form.submit()">
+                {% for choice in tarea_form.fields.prioridad.choices %}
+                  <option value="{{ choice.0 }}" {% if choice.0 == tarea.prioridad %}selected{% endif %}>
+                    {{ choice.1 }}
+                  </option>
+                {% endfor %}
+              </select>
+              <input type="hidden" name="tarea_id" value="{{ tarea.id }}">
+              <input type="hidden" name="prioridad.id" value="{{ tarea.prioridad }}">
             </form>
           </td>
           <td>
@@ -162,6 +178,7 @@
             <div class="accordion-item"> 
             </div>         
           </td>
+       
         </tr>
 
 

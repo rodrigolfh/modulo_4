@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import RegistrarUsuarioForm, TareaForm, Tarea
+from .models import RegistrarUsuarioForm, TareaForm, Tarea, Prioridad
 from django.contrib import messages #para poder mostrar mensajes
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -87,7 +87,7 @@ def ingresar_tarea(request):
         
         if form.is_valid(): #si es válido, 
             tarea = form.save(commit=False) # guardar sin commit, porque falta el campo 'user.id' (no se ve en el formulario)
-            tarea.usuario = User.objects.get(pk=request.user.id) # agregar campo del usuario logueado en ese momento
+            #tarea.usuario = User.objects.get(pk=request.user.id) # agregar campo del usuario logueado en ese momento
             tarea.save() # guardar ahora con commit
                 
             messages.success(request, 'Usuario ingresado exitosamente')
@@ -159,7 +159,7 @@ class TareasListView(ListView): #listview es un class-based-view de django, que 
         tarea_id = request.POST.get('tarea_id') #obtiene el tarea_ide de los parámetros del POST, cada vez que se presiona "Completar" o "Eliminar"
         print(f"tarea_id = {tarea_id}")
         tarea = Tarea.objects.get(id=tarea_id) #obtiene el objeto Tarea asociado al tarea_id obtenido en la línea anterior.
-        print(f"tarea = {tarea}")       
+        print(f"tarea = {tarea}")   
 
         if 'estado' in request.POST: #si en el POST viene un campo 'estado':
             tarea.estado = request.POST['estado'] #actualiza el campo con el valor correspondiente
@@ -167,6 +167,9 @@ class TareasListView(ListView): #listview es un class-based-view de django, que 
             tarea.categoría = request.POST['categoria'] #acrualiza el campo con el valor correspondiente
         elif 'observación' in request.POST:
             tarea.observación = request.POST['observación']
+        elif 'prioridad' in request.POST:
+            prioridad_elegida = Prioridad.objects.get(id=request.POST['prioridad'])
+            tarea.prioridad = prioridad_elegida
 
         else:
             tarea.save()    
